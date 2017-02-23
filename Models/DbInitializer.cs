@@ -12,23 +12,24 @@ namespace MediaApplication.Models
 
             context.Database.EnsureCreated();
 
-           // Look for any Genres.
-            if (context.Genres.Any())
+            // Look for any Genres.
+            if (!context.Genres.Any())
             {
-                return;   // DB has been seeded
+                var genres = new Genre[]
+                {
+                    new Genre{Title="Comedy"},
+                    new Genre{Title="Action"},
+                    new Genre{Title="Romance"},
+                    new Genre{Title="War"}
+
+                };
+
+                context.Genres.AddRange(genres);
+                context.SaveChanges();
+                // DB has been seeded
             }
-            
-            var genres =  new Genre[]
-            {
-                new Genre{Title="Comedy"},
-                new Genre{Title="Action"},
-                new Genre{Title="Romance"},
-                new Genre{Title="War"}
+            return;
 
-            };
-
-            context.Genres.AddRange(genres);
-            context.SaveChanges();
         }
     }
 }

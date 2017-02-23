@@ -1,8 +1,9 @@
-@model List<MediaApplication.Models.Movie>
+@model List<MediaApplication.Models.MovieViewModels.AllMovieViewModel>
 @{
 
     ViewData["Title"] = "Movies";
 }
+
     <p>
         <a asp-action="Add">Add New</a>
     </p>
@@ -12,10 +13,11 @@
                 <tr>
                     <th>Image</th>
                     <th>Title</th>
+                    <th>Genre</th>
                     <th>Description</th>
                     <th>Release Date</th>
-                    <th>Director</th>
-                    <th> Writer </th>
+                    <th>Directors</th>
+                    <th> Writers </th>
                     <th> Stars </th>
                    
                 </tr>
@@ -32,7 +34,8 @@
                           if(!String.IsNullOrEmpty(thumbnailString))
                           {
                            // var base64 = Convert.ToBase64String(movie.Images.FirstOrDefault().Thumbnail);
-                            imgSrc = String.Format("data:image/gif;base64,{0}", thumbnailString);
+                           // imgSrc = String.Format("data:image/gif;base64,{0}", thumbnailString);
+                            imgSrc = $"data:image/gif;base64,{thumbnailString}";
                           }
 
                         }
@@ -46,9 +49,19 @@
 
                     </td>
                 
-                    <td>@movie.Title</td>
+                    <td>
+                        @movie.Title
+                        </td>
+                           <td>
+                        @movie.Genre.Title
+
+                    </td>
                     <td>@movie.Description</td>
-                    <td>@movie.ReleaseDate.ToString("dd/MM/yyyy")</td>
+                    
+                    <td>@movie.ReleaseDate.ToString("dd/MM/yyyy")
+
+                    </td>
+                 
                     <td>
 
                         @if(movie.Directors != null)
@@ -61,7 +74,7 @@
 
 
                             }
-                            @Html.Raw(movieDirectors.Trim(','))
+                            @Html.Label("directors",movieDirectors.Trim(','), new {@class="CustomLabel"})
 
                         }                   
                     </td>
@@ -75,7 +88,7 @@
                                     movieWriters += Convert.ToString(writer.Name).Trim() + ",";
 
                             }
-                            @Html.Raw(movieWriters.Trim(','))
+                            @Html.Label("writers",movieWriters.Trim(','), new {@class="CustomLabel"})
 
                     }   
                         
@@ -91,7 +104,7 @@
                                     movieStars += Convert.ToString(star.Name).Trim() + ",";
 
                             }
-                            @Html.Raw(movieStars.Trim(','))
+                            @Html.Label("stars",movieStars.Trim(','), new {@class="CustomLabel"})
 
                     }   
                         
@@ -104,3 +117,13 @@
         </table>
 
     </div>
+
+@section scripts{
+ 
+<style>
+    .CustomLabel{
+
+        font-weight:100;
+    }
+    </style>
+   }

@@ -23,7 +23,7 @@ namespace MediaApplication.Models
         [Required]
         public string Title { get; set; }
 
-        public string Description { get; set; }      
+        public string Description { get; set; } 
 
         [Required]
         public int GenreId { get; set; }
@@ -34,10 +34,10 @@ namespace MediaApplication.Models
         [Required]
         public DateTimeOffset ReleaseDate { get; set; }
 
-        public ICollection<Director> Directors { get; set; }
-        public ICollection<Writer> Writers { get; set; }
-        public ICollection<Star> Stars { get; set; }
-        public ICollection<Image> Images { get; set; }
+        public virtual ICollection<Director> Directors { get; set; }
+        public virtual ICollection<Writer> Writers { get; set; }
+        public virtual ICollection<Star> Stars { get; set; }
+        public virtual ICollection<Image> Images { get; set; }
     }
 
     public class Director

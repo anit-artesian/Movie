@@ -1,0 +1,3 @@
+22-02-2017 14:14:47Attempted to divide by zero.Attempted to divide by zero.   at MoviesController.Index() in D:\Anit\Core\first\Controllers\MoviesController.cs:line 40
+
+

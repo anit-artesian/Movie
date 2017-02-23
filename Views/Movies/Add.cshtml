@@ -4,6 +4,9 @@
 
 <div class="container topDiv">
     <form asp-controller="Movies" asp-action="Add" method="post" enctype="multipart/form-data">
+
+     
+
         <div class="form-group row">
             <label for="Title" class="col-sm-2 col-form-label">Title</label>
             <div class="col-sm-10">
@@ -21,16 +24,16 @@
          <div class="form-group row">
             <label for="SelectedGenre" class="col-sm-2 col-form-label">Genre</label>
             <div class="col-sm-10">
-             <select asp-for="SelectedGenre" asp-items="Model.AllGenre" class="form-control">
-                   <option>Please select</option>
+             <select asp-for="GenreId" asp-items="Html.GetEnumSelectList<GenreEnum>()" class="form-control">
+                   <option value="-1">Please select</option>
               </select>
-               <span asp-validation-for="SelectedGenre" class="text-danger"></span>
+               <span asp-validation-for="GenreId" class="text-danger"></span>
             </div>
         </div>
          <div class="form-group row">
             <label for="Photo" class="col-sm-2 col-form-label">Photo</label>
             <div class="col-sm-10">
-               <input type="file" name="files" id="files" accept="image/*"/>
+               <input type="file" name="files" id="files" accept="image/*" />
                     <span asp-validation-for="files" class="text-danger"></span>
             </div>
         </div>  

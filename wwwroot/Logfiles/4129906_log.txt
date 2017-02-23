@@ -1,0 +1,9 @@
+20-02-2017 20:07:27An error occurred while updating the entries. See the inner exception for details.The INSERT statement conflicted with the FOREIGN KEY constraint "FK_Movies_Genres_GenreId". The conflict occurred in database "movieDb", table "dbo.Genres", column 'Id'.
+The statement has been terminated.   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.Execute(IRelationalConnection connection)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.Execute(IEnumerable`1 commandBatches, IRelationalConnection connection)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChanges(IReadOnlyList`1 entriesToSave)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChanges(Boolean acceptAllChangesOnSuccess)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChanges(Boolean acceptAllChangesOnSuccess)
+   at MoviesController.Add(AddMovieViewModel model) in D:\Anit\Core\first\Controllers\MoviesController.cs:line 229
+
+
