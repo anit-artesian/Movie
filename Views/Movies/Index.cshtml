@@ -1,0 +1,106 @@
+@model List<MediaApplication.Models.Movie>
+@{
+
+    ViewData["Title"] = "Movies";
+}
+    <p>
+        <a asp-action="Add">Add New</a>
+    </p>
+    <div class="table-responsive" style="overflow:auto;">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Release Date</th>
+                    <th>Director</th>
+                    <th> Writer </th>
+                    <th> Stars </th>
+                   
+                </tr>
+            </thead>
+            <tbody>
+                @if(Model != null) { 
+                    foreach(var movie in Model) {
+
+                        string imgSrc =  String.Empty;
+
+                        if(movie.Images != null && movie.Images.Count > 0)
+                        {
+                          var thumbnailString = movie.Images.FirstOrDefault().Thumbnail;
+                          if(!String.IsNullOrEmpty(thumbnailString))
+                          {
+                           // var base64 = Convert.ToBase64String(movie.Images.FirstOrDefault().Thumbnail);
+                            imgSrc = String.Format("data:image/gif;base64,{0}", thumbnailString);
+                          }
+
+                        }
+                <tr>
+                    <td>
+                        @if(!String.IsNullOrEmpty(imgSrc))
+                        {
+
+                          <img src="@imgSrc"  alt="Movie Image" height="80px" width="80px"/>  
+                        }
+
+                    </td>
+                
+                    <td>@movie.Title</td>
+                    <td>@movie.Description</td>
+                    <td>@movie.ReleaseDate.ToString("dd/MM/yyyy")</td>
+                    <td>
+
+                        @if(movie.Directors != null)
+                        {
+                        
+                            string movieDirectors = String.Empty;
+                            foreach(var director in movie.Directors)
+                            {
+                                    movieDirectors += Convert.ToString(director.Name).Trim() + ",";
+
+
+                            }
+                            @Html.Raw(movieDirectors.Trim(','))
+
+                        }                   
+                    </td>
+                    <td>
+                    @if(movie.Writers != null)
+                        {
+                       
+                            string movieWriters = String.Empty;
+                            foreach(var writer in movie.Writers)
+                            {
+                                    movieWriters += Convert.ToString(writer.Name).Trim() + ",";
+
+                            }
+                            @Html.Raw(movieWriters.Trim(','))
+
+                    }   
+                        
+                    </td>
+
+                     <td>
+                    @if(movie.Stars != null)
+                        {
+                       
+                            string movieStars = String.Empty;
+                            foreach(var star in movie.Stars)
+                            {
+                                    movieStars += Convert.ToString(star.Name).Trim() + ",";
+
+                            }
+                            @Html.Raw(movieStars.Trim(','))
+
+                    }   
+                        
+                    </td>
+                    
+                </tr>
+
+                } }
+            </tbody>
+        </table>
+
+    </div>

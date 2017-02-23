@@ -1,0 +1,3 @@
+20-02-2017 17:51:09Index was outside the bounds of the array.   at MoviesController.Add(AddMovieViewModel model) in D:\Anit\Core\first\Controllers\MoviesController.cs:line 85
+
+

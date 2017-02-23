@@ -1,0 +1,5 @@
+1. Set Environment variable :
+setx ASPNETCORE_ENVIRONMENT "Development"
+
+2. Migrations
+    dotnet ef migrations -- help
