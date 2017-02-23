@@ -30,9 +30,8 @@ public class MoviesController : Controller
         _movieService = movieService;
 
     }
-  //  [Authorize]
-[HttpPost]
-  public String test(string a)=> a;
+  
+
     public IActionResult Index()
     {
         List<AllMovieViewModel> allMovies = new List<AllMovieViewModel>();
