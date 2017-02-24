@@ -6,7 +6,7 @@
       "version": "1.0.1",
       "type": "platform"
     },
-    "Microsoft.AspNetCore.Authentication.Cookies": "1.0.0",
+    "Microsoft.AspNetCore.Authentication.Cookies": "1.1.0",
     "Microsoft.AspNetCore.Diagnostics": "1.0.0",
     "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": "1.0.0",
     "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "1.0.0",
@@ -42,7 +42,8 @@
     "CoreCompat.System.Drawing" :"1.0.0-beta006",
     "AutoMapper": "5.0.0",
    
-    "NLog.Extensions.Logging": "1.0.0-rtm-alpha5"
+    "NLog.Extensions.Logging": "1.0.0-rtm-alpha5",
+      "Microsoft.AspNetCore.Authentication.JwtBearer": "1.1.0" 
  
   },
 

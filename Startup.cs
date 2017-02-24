@@ -7,18 +7,25 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MediaApplication.Models;
-using Microsoft.AspNetCore.Http;
 using MediaApplication.Data;
 using MediaApplication.Services;
 using AutoMapper;
 using NLog.Extensions.Logging;
 using NLog.Config;
 using System;
+using Microsoft.IdentityModel.Tokens;
+using MediaApplication.JWTMiddleware;
+using Microsoft.Extensions.Options;
+using System.Text;
 
 namespace MediaApplication
 {
     public class Startup
     {
+
+        private static readonly string secretKey = "supersecret_secretkey!123";
+        private static readonly string issure = "Movie-Application";
+        private static readonly string audience = "All-Audience";
         private MapperConfiguration _mapperConfiguration { get; set; }
         public Startup(IHostingEnvironment env)
         {
@@ -54,41 +61,29 @@ namespace MediaApplication
                 options.UseSqlServer(connection));
 
 
-            services.Configure<IdentityOptions>(options =>
-               {
-                   // Password settings
-                   options.Password.RequireDigit = true;
-                   options.Password.RequiredLength = 8;
-                   options.Password.RequireNonAlphanumeric = false;
-                   options.Password.RequireUppercase = true;
-                   options.Password.RequireLowercase = false;
-
-                   // Lockout settings
-                   options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(3);
-                   options.Lockout.MaxFailedAccessAttempts = 2;
-
-                   // Cookie settings
-                   options.Cookies.ApplicationCookie.ExpireTimeSpan = TimeSpan.FromDays(150);
-                   options.Cookies.ApplicationCookie.LoginPath = "/Account/LogIn";
-                   options.Cookies.ApplicationCookie.LogoutPath = "/Account/LogOff";
-
-                   // User settings
-                   options.User.RequireUniqueEmail = true;
-               });
             services.AddIdentity<ApplicationUser, IdentityRole>()
            .AddEntityFrameworkStores<ApplicationDbContext>()
            .AddDefaultTokenProviders();
             services.AddMvc();
-            
+
 
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
 
+
             services.AddTransient<IMovieService, MovieService>();
             services.AddSingleton<IMapper>(sp => _mapperConfiguration.CreateMapper());
 
             services.AddAntiforgery();
+
+            // services.AddIdentityServer()
+            //    .AddTemporarySigningCredential()
+            //    .AddInMemoryPersistedGrants()
+            //    .AddInMemoryIdentityResources(Config.GetIdentityResources())
+            //    .AddInMemoryApiResources(Config.GetApiResources())
+            //    .AddInMemoryClients(Config.GetClients())
+            //    .AddAspNetIdentity<ApplicationUser>();
 
         }
 
@@ -104,6 +99,56 @@ namespace MediaApplication
                      .RegisterDefinition("basedir", typeof(AspNetCoreBaseDirLayoutRenderer));
             env.ConfigureNLog("nlog.config");
 
+
+
+
+            var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secretKey));
+            //generate token
+
+            var jwtOptions = new TokenProviderOptions
+            {
+                Audience = audience,
+                Issuer = issure,
+                SigningCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256)
+
+            };
+
+            app.UseMiddleware<TokenProviderMiddleware>(Options.Create(jwtOptions));
+
+            //validation key
+
+
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                //The signing key must match !
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = signingKey,
+
+                //Validate the JWT Issuer (iss) claim
+                ValidateIssuer = true,
+                ValidIssuer = issure,
+
+                //validate the JWT Audience (aud) claim
+
+                ValidateAudience = true,
+                ValidAudience = audience,
+
+                //validate the token expiry
+                ValidateLifetime = true,
+
+                // If you  want to allow a certain amout of clock drift
+                ClockSkew = TimeSpan.Zero
+            };
+
+            app.UseJwtBearerAuthentication(new JwtBearerOptions
+            {
+                AutomaticAuthenticate = false,
+                AutomaticChallenge = true,
+                TokenValidationParameters = tokenValidationParameters,
+                AuthenticationScheme = "Bearer"
+            });
+
+         
             // app.Run(async context1 =>
             // {
             //          await context1.Response.WriteAsync(env.ContentRootPath.ToString());
@@ -126,6 +171,7 @@ namespace MediaApplication
             app.UseStaticFiles();
 
             app.UseIdentity();
+            //app.UseIdentityServer();
 
             // Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
 

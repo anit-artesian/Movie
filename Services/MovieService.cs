@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using MediaApplication.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace MediaApplication.Services
 {
@@ -25,7 +26,17 @@ namespace MediaApplication.Services
                             .Include(c => c.Stars)
                             .Include(c => c.Images)
                             .Include(c => c.Genre)
-                            .OrderByDescending(x => x.Id).ToList();
+                            .OrderBy(x => x.Id).ToList();
+            return allMovies;
+
+        }
+
+        public async Task<List<Movie>> GetAllMoviess()
+        {
+            List<Movie> allMovies = new List<Movie>();
+
+            allMovies = await Task.Run(() => _context.Movies                                    
+                                      .OrderBy(x => x.Id).Take(4).ToList());
             return allMovies;
 
         }
@@ -34,6 +45,17 @@ namespace MediaApplication.Services
 
             _context.Movies.Add(movie);
             _context.SaveChanges();
+        }
+        public Movie GetMovie()
+        {
+            var test = _context.Movies.Where(x => x.Title == "title");
+            return test.FirstOrDefault();
+
+        }
+        public Movie GetMovieFirst()
+        {
+
+            return _context.Movies.FirstOrDefault(x => x.Title == "title");
         }
 
     }

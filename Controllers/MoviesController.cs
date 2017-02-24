@@ -30,7 +30,7 @@ public class MoviesController : Controller
         _movieService = movieService;
 
     }
-  
+
 
     public IActionResult Index()
     {
@@ -60,7 +60,7 @@ public class MoviesController : Controller
         }
         catch (Exception ex)
         {
-
+            _logger.Error(ex, "Error occured");
             LogException(ex);
         }
         // model.AllGenre = GetAllGenre();

@@ -1,0 +1,12 @@
+24-02-2017 19:44:09Error mapping types.
+
+Mapping types:
+List`1 -> List`1
+System.Collections.Generic.List`1[[MediaApplication.Models.Movie, first, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] -> System.Collections.Generic.List`1[[MediaApplication.Models.MovieViewModels.AllMovieViewModel, first, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]Missing type map configuration or unsupported mapping.
+
+Mapping types:
+Star -> StarViewModel
+MediaApplication.Models.Star -> MediaApplication.Models.MovieViewModels.StarViewModel   at lambda_method(Closure , List`1 , List`1 , ResolutionContext )
+   at MoviesController.Index() in D:\Anit\Core\first\Controllers\MoviesController.cs:line 42
+
+
