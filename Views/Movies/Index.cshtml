@@ -1,4 +1,4 @@
-@model List<MediaApplication.Models.MovieViewModels.AllMovieViewModel>
+@model List<MediaApplication.Models.MovieViewModels.MovieViewModel>
 @{
 
     ViewData["Title"] = "Movies";
@@ -23,8 +23,8 @@
                 </tr>
             </thead>
             <tbody>
-                @if(Model != null) { 
-                    foreach(var movie in Model) {
+                @if(Model != null && Model.AllMovies != null) { 
+                    foreach(var movie in Model.AllMovies) {
 
                         string imgSrc =  String.Empty;
 

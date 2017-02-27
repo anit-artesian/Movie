@@ -10,7 +10,7 @@ namespace MediaApplication.Models
         protected override void Configure()
         {
             CreateMap<AddMovieViewModel, Movie>();
-            CreateMap<Movie, AllMovieViewModel>().MaxDepth(1);               
+            CreateMap<Movie, MovieViewModel>().MaxDepth(1);               
             CreateMap<Star, StarViewModel>().MaxDepth(1);               
             CreateMap<Genre, GenreViewModel>().MaxDepth(1);               
             CreateMap<Director, DirectorViewModel>().MaxDepth(1);               

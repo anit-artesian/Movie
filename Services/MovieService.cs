@@ -4,6 +4,8 @@ using MediaApplication.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
+using System;
+using MediaApplication.Models.MovieViewModels;
 
 namespace MediaApplication.Services
 {
@@ -17,10 +19,12 @@ namespace MediaApplication.Services
 
 
         }
-        public List<Movie> GetAllMovies()
+        public List<Movie> GetAllMovies(int pageSize,int pageNumber)
         {
+            int recordsToSkip =  (pageNumber * pageSize) - pageSize;
+            int recordsToTake =  pageSize;
             List<Movie> allMovies = new List<Movie>();
-            allMovies = _context.Movies
+            allMovies = _context.Movies.Skip(recordsToSkip).Take(recordsToTake)
                             .Include(c => c.Directors)
                             .Include(c => c.Writers)
                             .Include(c => c.Stars)
@@ -35,17 +39,41 @@ namespace MediaApplication.Services
         {
             List<Movie> allMovies = new List<Movie>();
 
-            allMovies = await Task.Run(() => _context.Movies                                    
-                                      .OrderBy(x => x.Id).Take(4).ToList());
+            allMovies = await Task.Run(() => _context.Movies
+                            .Include(c => c.Directors)
+                            .Include(c => c.Writers)
+                            .Include(c => c.Stars)
+                            .Include(c => c.Images)
+                            .Include(c => c.Genre)
+                            .OrderBy(x => x.Id).ToList());
             return allMovies;
 
         }
+
+
+        public  List<GenreViewModel> GetGenre(){
+
+              List<GenreViewModel> genreList = Enum.GetValues(typeof(GenreEnum)).Cast<GenreEnum>().Select(g => new GenreViewModel
+                {
+                    Id = (int)g,
+                    Title = g.ToString()
+                }).ToList();
+                return genreList;
+
+        }
+
+
+
         public void AddMovie(Movie movie)
         {
 
             _context.Movies.Add(movie);
             _context.SaveChanges();
         }
+
+
+
+        
         public Movie GetMovie()
         {
             var test = _context.Movies.Where(x => x.Title == "title");
@@ -57,6 +85,8 @@ namespace MediaApplication.Services
 
             return _context.Movies.FirstOrDefault(x => x.Title == "title");
         }
+
+        
 
     }
 }

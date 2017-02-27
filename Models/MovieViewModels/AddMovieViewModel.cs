@@ -1,21 +1,22 @@
 using System;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
+using MediaApplication.Models.CommonMovieViewModel;
 using Microsoft.AspNetCore.Http;
 
 namespace MediaApplication.Models.MovieViewModels
 {
 
-    public class AddMovieViewModel
+    public class AddMovieViewModel 
     {
-
 
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Title is Required")]
+        [RegularExpression(@"^.{1,}$", ErrorMessage = "Minimum 5 characters required")]
+        [StringLength(30, ErrorMessage = "Title should be maximium 30 characters")]
         public string Title { get; set; }
         [Required(ErrorMessage = "Description is Required")]
+         [StringLength(500, ErrorMessage = "Description should be maximium 30 characters")]
         public string Description { get; set; }
         [Required(ErrorMessage = "Director is Required")]
         public string Director { get; set; }
@@ -33,16 +34,8 @@ namespace MediaApplication.Models.MovieViewModels
         public DateTimeOffset ReleaseDate { get; set; }
 
 
-
-
-
-        public IFormFile files { get; set; }
-
         public GenreEnum AllGenre { get; set; }
-
-
-
-
+        public IFormFile files { get; set; }
         public AddMovieViewModel()
         {
             this.ReleaseDate = DateTime.Now.AddDays(1);

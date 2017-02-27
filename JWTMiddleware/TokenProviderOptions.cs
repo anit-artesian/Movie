@@ -12,7 +12,7 @@ namespace MediaApplication.JWTMiddleware
 
         public string Audience { get; set; }
 
-        public TimeSpan Expiration { get; set; } = TimeSpan.FromMinutes(60);
+        public TimeSpan Expiration { get; set; } = TimeSpan.FromMinutes(200);
 
         public SigningCredentials SigningCredentials { get; set; }
     }

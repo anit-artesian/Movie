@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace MediaApplication.Models.MovieViewModels
 {
 
-    public class AllMovieViewModel
+    public class MovieViewModel
     {
 
 
@@ -69,6 +69,15 @@ namespace MediaApplication.Models.MovieViewModels
         public string Thumbnail {get;set;}
         public string OriginalImage {get;set;}        
        
+    }
+
+
+    public class PagingMovieViewModel
+    {
+        public List<MovieViewModel> AllMovies {get;set;}
+        public int PageNumber {get;set;}
+        public int PageCount {get;set;}
+
     }
 
 }

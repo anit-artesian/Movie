@@ -17,6 +17,7 @@ using Microsoft.IdentityModel.Tokens;
 using MediaApplication.JWTMiddleware;
 using Microsoft.Extensions.Options;
 using System.Text;
+using MediaApplication.Common;
 
 namespace MediaApplication
 {
@@ -66,25 +67,32 @@ namespace MediaApplication
            .AddDefaultTokenProviders();
             services.AddMvc();
 
-
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
 
-
+            // custom class mappings
             services.AddTransient<IMovieService, MovieService>();
             services.AddSingleton<IMapper>(sp => _mapperConfiguration.CreateMapper());
-
+            services.AddSingleton<CommonFunction,CommonFunction>();
             services.AddAntiforgery();
 
-            // services.AddIdentityServer()
-            //    .AddTemporarySigningCredential()
-            //    .AddInMemoryPersistedGrants()
-            //    .AddInMemoryIdentityResources(Config.GetIdentityResources())
-            //    .AddInMemoryApiResources(Config.GetApiResources())
-            //    .AddInMemoryClients(Config.GetClients())
-            //    .AddAspNetIdentity<ApplicationUser>();
+           services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequiredLength = 1;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
 
+                options.User.RequireUniqueEmail = true;
+                options.Cookies.ApplicationCookie.AutomaticAuthenticate = false;
+                
+                options.Cookies.ApplicationCookie.ExpireTimeSpan = TimeSpan.FromDays(150);
+                options.Cookies.ApplicationCookie.LoginPath = "/Account/Login";
+                options.Cookies.ApplicationCookie.LogoutPath = "/Account/LogOff";
+                options.Cookies.ApplicationCookie.AuthenticationScheme = "CookieAuth";
+                
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
