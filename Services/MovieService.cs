@@ -24,13 +24,13 @@ namespace MediaApplication.Services
             int recordsToSkip =  (pageNumber * pageSize) - pageSize;
             int recordsToTake =  pageSize;
             List<Movie> allMovies = new List<Movie>();
-            allMovies = _context.Movies.Skip(recordsToSkip).Take(recordsToTake)
+            allMovies = _context.Movies
                             .Include(c => c.Directors)
                             .Include(c => c.Writers)
                             .Include(c => c.Stars)
                             .Include(c => c.Images)
                             .Include(c => c.Genre)
-                            .OrderBy(x => x.Id).ToList();
+                            .OrderByDescending(x => x.Id).Skip(recordsToSkip).Take(recordsToTake).ToList();
             return allMovies;
 
         }

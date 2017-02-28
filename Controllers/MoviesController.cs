@@ -54,8 +54,9 @@ public class MoviesController : Controller
     }
 
     [HttpGet]
-    [Authorize(ActiveAuthenticationSchemes = "CookieAuth")]
-    [ValidateAntiForgeryToken]
+    //[Authorize(ActiveAuthenticationSchemes = "CookieAuth")]
+    [Authorize(ActiveAuthenticationSchemes="Identity.Application")]
+    //[ValidateAntiForgeryToken]
     public IActionResult Add()
     {
         AddMovieViewModel model = new AddMovieViewModel();
@@ -74,7 +75,8 @@ public class MoviesController : Controller
     }
 
     [HttpPost]
-    [Authorize(ActiveAuthenticationSchemes = "CookieAuth")]
+    [Authorize(ActiveAuthenticationSchemes="Identity.Application")]
+   // [Authorize(ActiveAuthenticationSchemes = "CookieAuth")]
     [ValidateAntiForgeryToken]
     public IActionResult Add([Bind("Title", "Description", "ReleaseDate", "Director", "Writer", "MovieStars", "files", "GenreId")]AddMovieViewModel model)
     {

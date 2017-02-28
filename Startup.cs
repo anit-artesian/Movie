@@ -77,22 +77,22 @@ namespace MediaApplication
             services.AddSingleton<CommonFunction,CommonFunction>();
             services.AddAntiforgery();
 
-           services.Configure<IdentityOptions>(options =>
-            {
-                options.Password.RequiredLength = 1;
-                options.Password.RequireLowercase = false;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = false;
+        //    services.Configure<IdentityOptions>(options =>
+        //     {
+        //         options.Password.RequiredLength = 1;
+        //         options.Password.RequireLowercase = false;
+        //         options.Password.RequireNonAlphanumeric = false;
+        //         options.Password.RequireUppercase = false;
 
-                options.User.RequireUniqueEmail = true;
-                options.Cookies.ApplicationCookie.AutomaticAuthenticate = false;
+        //         options.User.RequireUniqueEmail = true;
+        //         options.Cookies.ApplicationCookie.AutomaticAuthenticate = false;
                 
-                options.Cookies.ApplicationCookie.ExpireTimeSpan = TimeSpan.FromDays(150);
-                options.Cookies.ApplicationCookie.LoginPath = "/Account/Login";
-                options.Cookies.ApplicationCookie.LogoutPath = "/Account/LogOff";
-                options.Cookies.ApplicationCookie.AuthenticationScheme = "CookieAuth";
+        //         options.Cookies.ApplicationCookie.ExpireTimeSpan = TimeSpan.FromDays(150);
+        //         options.Cookies.ApplicationCookie.LoginPath = "/Account/Login";
+        //         options.Cookies.ApplicationCookie.LogoutPath = "/Account/LogOff";
+        //        //options.Cookies.ApplicationCookie.AuthenticationScheme = "CookieAuth";
                 
-            });
+        //     });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
