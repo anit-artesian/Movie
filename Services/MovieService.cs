@@ -16,8 +16,6 @@ namespace MediaApplication.Services
         public MovieService(ApplicationDbContext context)
         {
             this._context = context;
-
-
         }
         public List<Movie> GetAllMovies(int pageSize,int pageNumber)
         {
@@ -32,9 +30,7 @@ namespace MediaApplication.Services
                             .Include(c => c.Genre)
                             .OrderByDescending(x => x.Id).Skip(recordsToSkip).Take(recordsToTake).ToList();
             return allMovies;
-
         }
-
         public async Task<List<Movie>> GetAllMoviess()
         {
             List<Movie> allMovies = new List<Movie>();
@@ -47,10 +43,7 @@ namespace MediaApplication.Services
                             .Include(c => c.Genre)
                             .OrderBy(x => x.Id).ToList());
             return allMovies;
-
         }
-
-
         public  List<GenreViewModel> GetGenre(){
 
               List<GenreViewModel> genreList = Enum.GetValues(typeof(GenreEnum)).Cast<GenreEnum>().Select(g => new GenreViewModel
@@ -59,30 +52,30 @@ namespace MediaApplication.Services
                     Title = g.ToString()
                 }).ToList();
                 return genreList;
-
         }
 
+        public   Movie GetMovieDetails(int id)
+        {
+            return _context.Movies .Include(c => c.Directors)
+                            .Include(c => c.Writers)
+                            .Include(c => c.Stars)
+                            .Include(c => c.Images)
+                            .Include(c => c.Genre).FirstOrDefault(m=>m.Id == id);
 
-
+        }
         public void AddMovie(Movie movie)
         {
-
             _context.Movies.Add(movie);
             _context.SaveChanges();
         }
 
-
-
-        
         public Movie GetMovie()
         {
             var test = _context.Movies.Where(x => x.Title == "title");
             return test.FirstOrDefault();
-
         }
         public Movie GetMovieFirst()
         {
-
             return _context.Movies.FirstOrDefault(x => x.Title == "title");
         }
 

@@ -33,16 +33,18 @@ public class MoviesController : Controller
     {
         int pageSize = 10;
         PagingMovieViewModel movies = new PagingMovieViewModel();
+
         try
         {
             _logger.Info("Index Page invoked");
             var movieList = _movieService.GetAllMovies(pageSize: pageSize, pageNumber: pageNumber);
             var allMovies = _mapper.Map<List<Movie>, List<MovieViewModel>>(movieList);
             int totalMovies = allMovies.Count;
-            int pageCount = totalMovies%pageSize == 0 ? totalMovies/pageSize :  totalMovies/pageSize +1;
+            int pageCount = totalMovies % pageSize == 0 ? totalMovies / pageSize : totalMovies / pageSize + 1;
             movies.PageNumber = pageNumber;
-            movies.PageCount =  pageCount;
+            movies.PageCount = pageCount;
             movies.AllMovies = allMovies;
+
         }
         catch (Exception ex)
         {
@@ -55,7 +57,7 @@ public class MoviesController : Controller
 
     [HttpGet]
     //[Authorize(ActiveAuthenticationSchemes = "CookieAuth")]
-    [Authorize(ActiveAuthenticationSchemes="Identity.Application")]
+    [Authorize(ActiveAuthenticationSchemes = "Identity.Application")]
     //[ValidateAntiForgeryToken]
     public IActionResult Add()
     {
@@ -75,8 +77,8 @@ public class MoviesController : Controller
     }
 
     [HttpPost]
-    [Authorize(ActiveAuthenticationSchemes="Identity.Application")]
-   // [Authorize(ActiveAuthenticationSchemes = "CookieAuth")]
+    [Authorize(ActiveAuthenticationSchemes = "Identity.Application")]
+    // [Authorize(ActiveAuthenticationSchemes = "CookieAuth")]
     [ValidateAntiForgeryToken]
     public IActionResult Add([Bind("Title", "Description", "ReleaseDate", "Director", "Writer", "MovieStars", "files", "GenreId")]AddMovieViewModel model)
     {
@@ -165,6 +167,30 @@ public class MoviesController : Controller
 
 
     }
+
+
+    //movie detail
+
+    public IActionResult detail(int? id)
+    {
+
+        if (id == null)
+        {
+            return RedirectToAction("Index");
+        }
+        var movie = _movieService.GetMovieDetails(Convert.ToInt32(id));
+
+        if (movie == null || movie.Id == 0)
+        {
+            return RedirectToAction("Index");
+        }
+        //return Content("test" + id.ToString());
+        MovieViewModel viewModel =  new   MovieViewModel();
+    
+        viewModel =  _mapper.Map<Movie, MovieViewModel>(movie);
+        return View(viewModel);
+    }
+
 
     #region private methods
 

@@ -1,129 +1,98 @@
 @model MediaApplication.Models.MovieViewModels.PagingMovieViewModel
-@{
-
-    ViewData["Title"] = "Movies";
-}
-
-    <p>
-        <a asp-action="Add">Add New</a>
-    </p>
-    <div class="table-responsive" style="overflow:auto;">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Image</th>
-                    <th>Title</th>
-                    <th>Genre</th>
-                    <th>Description</th>
-                    <th>Release Date</th>
-                    <th>Directors</th>
-                    <th> Writers </th>
-                    <th> Stars </th>
-                   
-                </tr>
-            </thead>
-            <tbody>
-                @if(Model != null && Model.AllMovies != null) { 
-                    foreach(var movie in Model.AllMovies) {
-
-                        string imgSrc =  String.Empty;
-
-                        if(movie.Images != null && movie.Images.Count > 0)
-                        {
-                          var thumbnailString = movie.Images.FirstOrDefault().Thumbnail;
-                          if(!String.IsNullOrEmpty(thumbnailString))
-                          {
-                           // var base64 = Convert.ToBase64String(movie.Images.FirstOrDefault().Thumbnail);
-                           // imgSrc = String.Format("data:image/gif;base64,{0}", thumbnailString);
-                            imgSrc = $"data:image/gif;base64,{thumbnailString}";
-                          }
-
-                        }
-                <tr>
-                    <td>
-                        @if(!String.IsNullOrEmpty(imgSrc))
-                        {
-
-                          <img src="@imgSrc"  alt="Movie Image" height="80px" width="80px"/>  
-                        }
-
-                    </td>
-                
-                    <td>
-                        @movie.Title
-                        </td>
-                           <td>
-                        @movie.Genre.Title
-
-                    </td>
-                    <td>@movie.Description</td>
-                    
-                    <td>@movie.ReleaseDate.ToString("dd/MM/yyyy")
-
-                    </td>
-                 
-                    <td>
-
-                        @if(movie.Directors != null)
-                        {
-                        
-                            string movieDirectors = String.Empty;
-                            foreach(var director in movie.Directors)
-                            {
-                                    movieDirectors += Convert.ToString(director.Name).Trim() + ",";
+ @{ ViewData["Title"] = "Movies"; }
 
 
-                            }
-                            @Html.Label("directors",movieDirectors.Trim(','), new {@class="CustomLabel"})
-
-                        }                   
-                    </td>
-                    <td>
-                    @if(movie.Writers != null)
-                        {
-                       
-                            string movieWriters = String.Empty;
-                            foreach(var writer in movie.Writers)
-                            {
-                                    movieWriters += Convert.ToString(writer.Name).Trim() + ",";
-
-                            }
-                            @Html.Label("writers",movieWriters.Trim(','), new {@class="CustomLabel"})
-
-                    }   
-                        
-                    </td>
-
-                     <td>
-                    @if(movie.Stars != null)
-                        {
-                       
-                            string movieStars = String.Empty;
-                            foreach(var star in movie.Stars)
-                            {
-                                    movieStars += Convert.ToString(star.Name).Trim() + ",";
-
-                            }
-                            @Html.Label("stars",movieStars.Trim(','), new {@class="CustomLabel"})
-
-                    }   
-                        
-                    </td>
-                    
-                </tr>
-
-                } }
-            </tbody>
-        </table>
-
+<div class="page">
+    <div class="breadcrumbs">
+        <a asp-action="Index">Home</a>
+        <span>All Movies</span>
     </div>
 
-@section scripts{
- 
-<style>
-    .CustomLabel{
+    <div class="filters">
+       
+  <select asp-for="SelectedGenreId" asp-items="Html.GetEnumSelectList<GenreEnum>()" >
+                   <option value="-1">Please select</option>
+              </select>
 
-        font-weight:100;
+
+
+        <select name="selectedYear" id="selectedYear">
+								<option value="#">2015</option>
+								<option value="#">2016</option>
+								<option value="#">2017</option>
+							</select>
+    </div>
+    @if(Model != null && Model.AllMovies != null) {
+
+    <div class="movie-list">
+
+    @foreach(var movie in Model.AllMovies) 
+        { 
+             string imgSrc = String.Empty; 
+         @:<div class="movie">
+           
+            if(movie.Images != null && movie.Images.Count > 0)
+            {
+                var thumbnailString = movie.Images.FirstOrDefault().Thumbnail;
+                    if(!String.IsNullOrEmpty(thumbnailString))
+                    { //
+                          imgSrc = $"data:image/gif;base64,{thumbnailString}";
+                    }
+            } 
+
+            <figure class="movie-poster">
+                 <img src="@imgSrc" alt="#"/>
+            </figure>
+            <div class="movie-title"><a asp-action="detail" asp-controller="Movies" asp-route-id="@movie.Id">@movie.Title</a></div>
+            <p>@movie.Description</p>
+        @:</div>
     }
-    </style>
-   }
+
+      
+      
+    </div>
+    }
+    <!-- .movie-list -->
+
+    <div class="pagination">
+        <a href="#" class="page-number prev"><i class="fa fa-angle-left"></i></a>
+        <span class="page-number current">1</span>
+        <a href="#" class="page-number">2</a>
+        <a href="#" class="page-number">3</a>
+        <a href="#" class="page-number">4</a>
+        <a href="#" class="page-number">5</a>
+        <a href="#" class="page-number next"><i class="fa fa-angle-right"></i></a>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@section scripts{
+
+<style>
+    .CustomLabel {
+        font-weight: 100;
+    }
+</style>
+}

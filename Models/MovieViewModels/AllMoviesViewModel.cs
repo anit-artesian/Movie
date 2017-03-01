@@ -20,63 +20,66 @@ namespace MediaApplication.Models.MovieViewModels
         public ICollection<ImageViewModel> Images { get; set; }
     }
 
-  public class GenreViewModel
+    public class GenreViewModel
     {
-      
+
         public int Id { get; set; }
 
-      
+
         public string Title { get; set; }
-      
+
     }
 
     public class DirectorViewModel
     {
-   
-        public int Id { get; set; }    
-        public string Name { get; set; }       
+
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
 
     public class WriterViewModel
     {
-      
+
         public int Id { get; set; }
-      
+
         public string Name { get; set; }
-       
+
 
     }
 
     public class StarViewModel
     {
-        
+
         public int Id { get; set; }
-       
+
         public string Name { get; set; }
-     
+
 
     }
 
-    public class ImageViewModel {
+    public class ImageViewModel
+    {
 
-       
+
         public int Id { get; set; }
-    
+
         public string Name { get; set; }
 
-        public string OriginalName {get;set;}
-        public string Extention {get;set;}
-        public string Thumbnail {get;set;}
-        public string OriginalImage {get;set;}        
-       
+        public string OriginalName { get; set; }
+        public string Extention { get; set; }
+        public string Thumbnail { get; set; }
+        public string OriginalImage { get; set; }
+
     }
 
 
     public class PagingMovieViewModel
     {
-        public List<MovieViewModel> AllMovies {get;set;}
-        public int PageNumber {get;set;}
-        public int PageCount {get;set;}
+        public List<MovieViewModel> AllMovies { get; set; }
+        public int PageNumber { get; set; }
+        public int PageCount { get; set; }
+        public GenreEnum AllGenre { get; set; }
+        public int SelectedGenreId { get; set; }
 
     }
 

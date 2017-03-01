@@ -14,6 +14,7 @@ namespace MediaApplication.Services
         Movie GetMovie();
         Movie GetMovieFirst();
         List<GenreViewModel> GetGenre();
+        Movie GetMovieDetails(int id);
 
     }
 }

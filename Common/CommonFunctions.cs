@@ -26,7 +26,20 @@ namespace MediaApplication.Common
             try
             {
                 System.Drawing.Image createdImage = System.Drawing.Image.FromStream(ms);
-                System.Drawing.Image thumbnailImage = createdImage.GetThumbnailImage(100, 100, () => false, IntPtr.Zero);
+
+                int thumbWidth = 100;
+                int thumbHeight = 150;
+                int newHeight = createdImage.Height * thumbWidth / createdImage.Width;
+                int newWidth = thumbWidth;
+
+                if (newHeight > thumbHeight)
+                {
+                    newWidth = createdImage.Width * thumbHeight / createdImage.Height;
+                    newHeight = thumbHeight;
+                }
+
+
+                System.Drawing.Image thumbnailImage = createdImage.GetThumbnailImage(newWidth, newHeight, () => false, IntPtr.Zero);
                 byte[] byteArr = ImageToByteArray(thumbnailImage);
                 imageBaseString = Convert.ToBase64String(byteArr);
                 return imageBaseString;

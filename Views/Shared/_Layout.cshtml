@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
 
-    <environment names="Development">
+    <!--<environment names="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
@@ -15,43 +15,123 @@
             asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/css/jquery.tagsinput.css" asp-append-version="true" />
-    </environment>
-    <style>
+    </environment>-->
+    <link href="http://fonts.googleapis.com/css?family=Roboto:300,400,700|" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="~/css/fonts/font-awesome.min.css" />
+    <link rel="stylesheet" href="~/css/movie/style.css" />
 
+    <style>
 
     </style>
 </head>
 
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a asp-controller="Movies" asp-action="Index" class="navbar-brand">Movies</a>
+
+    <div id="site-content">
+        <header class="site-header">
+            <div class="container">
+                <a asp-action="Index" asp-controller="Movies" id="branding">
+                    <img src="~/images/logo.png" alt="" class="logo">
+                    <div class="logo-copy">
+                        <h1 class="site-title">Movies</h1>
+                        <small class="site-description">The Entertainment</small>
+                    </div>
+                </a>
+                <!-- #branding -->
+
+                <!-- .main-navigation -->
+
+            
+					<div class="main-navigation">
+                     @await Html.PartialAsync("_LoginPartial")
+                </div>
             </div>
-            <div class="navbar-collapse collapse">
-                <!--<ul class="nav navbar-nav">
-                    <li><a asp-controller="Movies" asp-action="Index">Home</a></li>
-                    <li><a asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-controller="Home" asp-action="Contact">Contact</a></li>
-                </ul>-->
-                @await Html.PartialAsync("_LoginPartial")
+        </header>
+        <main class="main-content">
+            <div class="container">
+               @RenderBody()
             </div>
-        </div>
+            <!-- .container -->
+        </main>
+        <footer class="site-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="widget">
+                            <h3 class="widget-title">About Us</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia tempore vitae mollitia nesciunt
+                                saepe cupiditate</p>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="widget">
+                            <h3 class="widget-title">Recent Review</h3>
+                            <ul class="no-bullet">
+                                <li>Lorem ipsum dolor</li>
+                                <li>Sit amet consecture</li>
+                                <li>Dolorem respequem</li>
+                                <li>Invenore veritae</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="widget">
+                            <h3 class="widget-title">Help Center</h3>
+                            <ul class="no-bullet">
+                                <li>Lorem ipsum dolor</li>
+                                <li>Sit amet consecture</li>
+                                <li>Dolorem respequem</li>
+                                <li>Invenore veritae</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="widget">
+                            <h3 class="widget-title">Join Us</h3>
+                            <ul class="no-bullet">
+                                <li>Lorem ipsum dolor</li>
+                                <li>Sit amet consecture</li>
+                                <li>Dolorem respequem</li>
+                                <li>Invenore veritae</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="widget">
+                            <h3 class="widget-title">Social Media</h3>
+                            <ul class="no-bullet">
+                                <li>Facebook</li>
+                                <li>Twitter</li>
+                                <li>Google+</li>
+                                <li>Pinterest</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="widget">
+                            <h3 class="widget-title">Newsletter</h3>
+                            <form action="#" class="subscribe-form">
+                                <input type="text" placeholder="Email Address">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- .row -->
+
+                <div class="colophon">Copyright 2014 Company name, Designed by Themezy. All rights reserved</div>
+            </div>
+            <!-- .container -->
+
+        </footer>
     </div>
-    <div class="container body-content">
+    <!--<div class="container body-content">
    
         @RenderBody()
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year.ToString() - Movies</p>
         </footer>
-    </div>
+    </div>-->
 
     <environment names="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
